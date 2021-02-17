@@ -273,5 +273,39 @@ Hier sieht man ein paar nützliche git Kommandos:
 | `git commit -m"Beschreibung"` | Den "stage"-Bereich mit einer Beschreibung abspeichern |
 | `git push` | Die lokalen Commits welche noch nicht auf dem Server sind hochladen |
 
-Das Tutorial, was ich bisher mit Abstand am besten finde: https://www.sbf5.com/~cduan/technical/git/
-Danach versteht man, was hinter GIT wirklich steckt.
+Ein gutes Tutorial, für jene welche GIT verstehen möchten: https://www.sbf5.com/~cduan/technical/git/
+
+
+
+## GitHub Action einrichten
+GitHub Actions machen, dass wir bei jeder Änderung das Dockerfile builden können. Das ist der erste Schritt für ein sauberes CI.
+
+Wir erstellen folgende Datei und Ordnerstruktur im Repository:
+.github/workflows/ci.yaml
+
+mit folgendem Inhalt:
+```
+name: CI only
+
+on:
+  pull_request:
+  push:
+
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: docker build .
+```
+
+Diese minimale Konfiguration macht dass:
+- Bei jedem Pull-Request (dazu später mehr)
+- und bei jedem Push
+die Jobs ausgeführt werden.
+
+Der Job selber läuft auf einer Ubuntu 20.04 Maschine, welche von GitHub gestellt wird. Wenn das erstelle Repo ein Public-Repository ist, dann gibt es keine Einschränkungen bezüglich der genutzten CPU-Zeit etc.
+
+Das ganze jetzt wieder wie gehabt auf github hochladen (`git add .`, `git commit -m"..."`, `git push`), danach können wir der Action auf github zuschauen
