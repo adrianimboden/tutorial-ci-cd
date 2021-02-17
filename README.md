@@ -46,6 +46,7 @@ $ sudo apt-get install -y nodejs
 Wer das ganze im Detail mit mehr Zusatzinfos machen möchte. Dieses Tutorial macht im Grunde das, was unter https://create-react-app.dev/docs/adding-typescript/ beschrieben ist.
 
 ```
+$ cd /path/to/project/folder
 $ npx create-react-app vier-gewinnt --template typescript
 $ cd vier-gewinnt
 $ git log
@@ -114,7 +115,7 @@ Für dieses Tutorial habe ich https://github.com/adrianimboden/vier_gewinnt gew�
 
 Jetzt im Projektordner von vorher:
 ```
-$ cd /path/to/project/folder/vier_gewinnt
+$ cd /path/to/project/folder/vier-gewinnt
 $ git push --set-upstream git@github.com:adrianimboden/vier_gewinnt.git master
 Enumerating objects: 24, done.
 Counting objects: 100% (24/24), done.
@@ -128,3 +129,103 @@ Branch 'master' set up to track remote branch 'master' from 'git@github.com:adri
 ```
 
 Jetzt ist auf https://github.com/adrianimboden/vier_gewinnt der erste Commit, welcher von `npx create-react-app` erstellt wurde, zu sehen.
+
+
+## Build und tests lokal ausführen
+Damit wir lokal und auf dem Build-Server die gleiche Umgebung haben, bietet sicher hier Docker an. Aber zuerst machen wir mal von Hand, was wir nachher automatisieren wollen:
+
+```
+$ cd /path/to/project/folder/vier-gewinnt
+> vier-gewinnt@0.1.0 build /path/to/project/folder/vier-gewinnt
+> react-scripts build
+
+Creating an optimized production build...
+Compiled successfully.
+
+File sizes after gzip:
+
+  41.34 KB  build/static/js/2.50a60a52.chunk.js
+  1.59 KB   build/static/js/3.ab7c31bf.chunk.js
+  1.17 KB   build/static/js/runtime-main.4d4cba2f.js
+  596 B     build/static/js/main.d612ff39.chunk.js
+  531 B     build/static/css/main.8c8b27cf.chunk.css
+
+The project was built assuming it is hosted at /.
+You can control this with the homepage field in your package.json.
+
+The build folder is ready to be deployed.
+You may serve it with a static server:
+
+  npm install -g serve
+  serve -s build
+
+Find out more about deployment here:
+
+  https://cra.link/deployment
+$ CI=true npm test
+
+> vier-gewinnt@0.1.0 test /home/thingdust/src/projects/tutorial/vier-gewinnt
+> react-scripts test
+
+PASS src/App.test.tsx
+  ✓ renders learn react link (20 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        1.031 s
+Ran all test suites.
+```
+
+Jetzt ist im Ordner build die statische Webseite, welche wir irgendwo hochladen könnten und die Tests sind erfolgreich durchgelaufen.
+
+## Build und tests mit Docker ausführen
+Jetzt wollen wir das ganze noch mit Docker ausführen. Docker kann man als leichtgewichtige virtuelle Maschine ansehen. Mittels eines Dockerfiles automatisieren wir den Ablauf aus dem vorherigen Schritt nun.
+
+Wir legen eine Datei mit dem Namen "Dockerfile" (keine Dateiendung) an, mit folgendem Inhalt:
+```
+FROM ubuntu:focal
+
+RUN apt-get update && apt-get install -y curl
+RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get install -y nodejs
+
+WORKDIR /src
+
+COPY package.json /src/package.json
+COPY package-lock.json /src/package-lock.json
+
+RUN npm install
+
+COPY . /src/
+RUN npm run-script build
+RUN CI=true npm test
+```
+
+Das Dockerfile können wir jetzt ausführen:
+```
+$ cd /path/to/project/folder/vier-gewinnt
+$ docker build .
+```
+
+Das Dockerfile im Detail:
+Befehl | Beschreibung
+------------------------------------------------- | -------------
+| `FROM ubuntu:focal`                             | Wir nehmen als Basis ein fertig installiertes Ubuntu in der Version focal |
+| `RUN apt-get update && apt-get install -y curl` | curl installieren (wird für die Installation von Node.js verwendet |
+| ```RUN curl -fsSL https://deb.nodesource.com/setup_14.x \| bash -```<br>`RUN apt-get install -y nodejs` | Node.js intallieren (das ist der Befehl vom Tutorial am Anfang) |
+| `WORKDIR /src` | Ab jetzt arbeiten wir im Pfad /src (ist das selbe wie `cd /src`, aber das würde im Dockerfile nur für ein einzelnes RUN gelten) |
+| `COPY package.json /src/package.json`<br>`COPY package-lock.json /src/package-lock.json` | Für das installieren der Projekt-Dependencies brauchen wir nur package.json und package-lock.json. Wir könnten auch direkt auf dem ganzen Source arbeiten, das würde dann aber bedeuten dass wir bei jeder kleinsten Code-Änderung immer wieder alle Abhängigkeiten von Null aufbauen müssten. |
+| `RUN npm install` | Damit installieren wir die Projektabhängigkeiten. Das wurde im Tutorial automatisch von `npx create-react-app` gemacht. |
+| `COPY . /src/` | Jetzt kopieren wir unseren gesamten Source in Docker hinein. |
+| `RUN npm run-script build`<br>`RUN CI=true npm test` | Und zum Schluss der eigentlich Build- und Testablauf, wie wir ihn vorher von Hand gemacht haben |
+
+## node_modules
+Wer vorher genau hingeschaut hat, hat vielleicht bemerkt dass beim Befehl `docker build .` ca. 250MiB an Daten an den Docker daemon gesendet werden. Das ist ja viel mehr, als unser Code gross ist. Der Grund ist, dass alle Projektabhängigkeiten (der node_modules Ordner) mit hineinkopiert wird. Dieser ist aber nicht Teil des GIT Repositories und wird auf dem Buildserver auch nicht vorhanden sein.
+
+Deshalb erstellen wir noch eine Datei mit dem Namen `.dockerignore` (analog zu .gigignore) mit folgendem Inhalt:
+```
+node_modules/**
+```
+
+Der Befehl `RUN npm install` erstellt diesen Ordner dann
