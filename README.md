@@ -308,4 +308,7 @@ die Jobs ausgeführt werden.
 
 Der Job selber läuft auf einer Ubuntu 20.04 Maschine, welche von GitHub gestellt wird. Wenn das erstelle Repo ein Public-Repository ist, dann gibt es keine Einschränkungen bezüglich der genutzten CPU-Zeit etc.
 
-Das ganze jetzt wieder wie gehabt auf github hochladen (`git add .`, `git commit -m"..."`, `git push`), danach können wir der Action auf github zuschauen
+Das ganze jetzt wieder wie gehabt auf github hochladen (`git add .`, `git commit -m"..."`, `git push`), danach können wir der Action auf github zuschauen.
+So sieht das dann aus:
+![GitHub Action](github_action.png)
+Der orange Ball zeigt, dass die Action noch am laufen ist.
