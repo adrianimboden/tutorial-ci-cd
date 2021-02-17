@@ -25,7 +25,9 @@ Nachher am besten immer die GIT Bash vom Startmenu für die weiteren Befehle ver
 Ausserdem sind die Befehle, welche später im Zusammenhang mit Docker verwendet werden ebenfalls Bash-Shell kompatibel. Von daher macht es sowieso sinn, sich damit vertraut zu machen.
 
 ### Linux (Debian/Ubuntu)
-`$ sudo apt install git`
+```console
+$ sudo apt install git
+```
 
 
 ## Node.js Installieren
@@ -37,7 +39,7 @@ Nachher ausloggen oder den Computer neustarten. Erst nachher wird die Umgebungsv
 ### Linux (Debian/Ubuntu)
 Der Anleitung auf https://nodejs.org/en/download/package-manager/ befolgen.
 Für Debian/Ubuntu
-```
+```console
 $ curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 $ sudo apt-get install -y nodejs
 ```
@@ -45,7 +47,7 @@ $ sudo apt-get install -y nodejs
 ## React/Typescript Projekt initialisieren
 Wer das ganze im Detail mit mehr Zusatzinfos machen möchte. Dieses Tutorial macht im Grunde das, was unter https://create-react-app.dev/docs/adding-typescript/ beschrieben ist.
 
-```
+```console
 $ cd /path/to/project/folder
 $ npx create-react-app vier-gewinnt --template typescript
 $ cd vier-gewinnt
@@ -62,7 +64,7 @@ Jetzt haben wir ein leeres Typescript React.js Projekt. Der `git log` Befehl zei
 
 ## GIT Konfigurieren
 Jetzt auf https://github.com registerieren. Üblicherweise verwendet man GIT über SSH, deshalb machen wir noch einen SSH Key für die Authentifizierung:
-```
+```console
 $ ssh-keygen
 Generating public/private rsa key pair.
 Enter file in which to save the key (/home/user/.ssh/id_rsa): 
@@ -91,7 +93,7 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDYzuwNL6MEp3UQzg9XtuZQsdtfG2mHCnstOFMQmdzA
 Den mit `cat ~/.ssh/id_rsa.pub` ausgegebenen Key kann man jetzt auf GitHub (https://github.com/settings/keys) registrieren.
 
 Zum ausprobieren ob alles funktioniert hat, kannst du ja dieses Tutorial repo mal Klonen:
-```
+```console
 $ cd /tmp
 $ git clone git@github.com:adrianimboden/tutorial-ci-cd.git
 Cloning into 'tutorial-ci-cd'...
@@ -114,7 +116,7 @@ Jetzt auf https://github.com ein neues Repository erstellen.
 Für dieses Tutorial habe ich https://github.com/adrianimboden/vier_gewinnt gewählt.
 
 Jetzt im Projektordner von vorher:
-```
+```console
 $ cd /path/to/project/folder/vier-gewinnt
 $ git push --set-upstream git@github.com:adrianimboden/vier_gewinnt.git master
 Enumerating objects: 24, done.
@@ -134,7 +136,7 @@ Jetzt ist auf https://github.com/adrianimboden/vier_gewinnt der erste Commit, we
 ## Build und tests lokal ausführen
 Damit wir lokal und auf dem Build-Server die gleiche Umgebung haben, bietet sicher hier Docker an. Aber zuerst machen wir mal von Hand, was wir nachher automatisieren wollen:
 
-```
+```console
 $ cd /path/to/project/folder/vier-gewinnt
 > vier-gewinnt@0.1.0 build /path/to/project/folder/vier-gewinnt
 > react-scripts build
@@ -183,7 +185,7 @@ Jetzt ist im Ordner build die statische Webseite, welche wir irgendwo hochladen 
 Jetzt wollen wir das ganze noch mit Docker ausführen. Docker kann man als leichtgewichtige virtuelle Maschine ansehen. Mittels eines Dockerfiles automatisieren wir den Ablauf aus dem vorherigen Schritt nun.
 
 Wir legen eine Datei mit dem Namen "Dockerfile" (keine Dateiendung) an, mit folgendem Inhalt:
-```
+```Dockerfile
 FROM ubuntu:focal
 
 RUN apt-get update && apt-get install -y curl
@@ -203,7 +205,7 @@ RUN CI=true npm test
 ```
 
 Das Dockerfile können wir jetzt ausführen:
-```
+```console
 $ cd /path/to/project/folder/vier-gewinnt
 $ docker build .
 ```
@@ -229,3 +231,47 @@ node_modules/**
 ```
 
 Der Befehl `RUN npm install` erstellt diesen Ordner dann
+
+
+## Die Änderungen auf GitHub bringen
+
+```console
+$ git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .dockerignore
+        Dockerfile
+
+nothing added to commit but untracked files present (use "git add" to track)
+$ git add .
+$ git diff --staged
+... anzeige was geändert hat ...
+$ git commit -m"added Dockerfile for ci build"
+[master c19e869] added Dockerfile for ci build
+ 2 files changed, 17 insertions(+)
+ create mode 100644 .dockerignore
+ create mode 100644 Dockerfile
+$ git push
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 64 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (4/4), 547 bytes | 547.00 KiB/s, done.
+Total 4 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To github.com:adrianimboden/tmp-vier-gewinnt.git
+   52f4b0f..c19e869  master -> master
+```
+
+Hier sieht man ein paar nützliche git Kommandos:
+| Befehl | Beschreibung |
+| ------ | ------------ |
+| `git status` | Anzeigen, was für Dateien wir seit letztem mal editiert/hinzugefügt/gelöscht haben |
+| `git add` | Geänderte, Gelöschte und Hinzugefügte Dateien "stagen" |
+| `git diff --staged` | Die Differenz zwischen dem neusten Commit (HEAD) und dem "stage"-Bereich anzeigen |
+| `git commit -m"Beschreibung"` | Den "stage"-Bereich mit einer Beschreibung abspeichern |
+| `git push` | Die lokalen Commits welche noch nicht auf dem Server sind hochladen |
+
+Das Tutorial, was ich bisher mit Abstand am besten finde: https://www.sbf5.com/~cduan/technical/git/
+Danach versteht man, was hinter GIT wirklich steckt.
