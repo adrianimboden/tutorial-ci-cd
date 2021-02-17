@@ -284,7 +284,7 @@ Wir erstellen folgende Datei und Ordnerstruktur im Repository:
 .github/workflows/ci.yaml
 
 mit folgendem Inhalt:
-```
+```YAML
 name: CI only
 
 on:
