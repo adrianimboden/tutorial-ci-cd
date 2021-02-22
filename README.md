@@ -1,7 +1,7 @@
 # Tutorial Projekt mit CI/CD
 
 In diesem Tutorial geht es darum, ein einfaches Projekt inklusive CI/CD in GitHub aufzusetzetzen.
-Eingesetzt dafür werden:
+Technologien:
 - Git
 - Node.js
 - React mit Typescript
@@ -53,17 +53,17 @@ $ npx create-react-app vier-gewinnt --template typescript
 $ cd vier-gewinnt
 $ git log
 commit 52f4b0f31d459b88186817f35dfa0940b2864e5a (HEAD -> master)
-Author: Adrian Imboden <adi@thingdust.com>
+Author: Adrian Imboden <mailaddress@example.com>
 Date:   Wed Feb 17 13:13:44 2021 +0000
 
     Initialize project using Create React App
 ```
 
-Jetzt haben wir ein leeres Typescript React.js Projekt. Der `git log` Befehl zeigt, dass unser GIT Repository einen Commit drin hat.
+Jetzt existiert ein leeres Typescript/React.js Projekt. Der `git log` Befehl zeigt, dass unser GIT Repository einen Commit drin hat.
 
 
 ## GIT Konfigurieren
-Jetzt auf https://github.com registerieren. Üblicherweise verwendet man GIT über SSH, deshalb machen wir noch einen SSH Key für die Authentifizierung:
+Jetzt auf https://github.com registerieren. Üblicherweise verwendet man GIT über SSH. Für die Authentifizierung wird ein SSH-Keypair benötigt. Dieser wird wie folgt erstellt:
 ```console
 $ ssh-keygen
 Generating public/private rsa key pair.
@@ -92,7 +92,7 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDYzuwNL6MEp3UQzg9XtuZQsdtfG2mHCnstOFMQmdzA
 ```
 Den mit `cat ~/.ssh/id_rsa.pub` ausgegebenen Key kann man jetzt auf GitHub (https://github.com/settings/keys) registrieren.
 
-Zum ausprobieren ob alles funktioniert hat, kannst du ja dieses Tutorial repo mal Klonen:
+Zum Ausprobieren ob alles funktioniert hat, kann man dieses Respository klonen:
 ```console
 $ cd /tmp
 $ git clone git@github.com:adrianimboden/tutorial-ci-cd.git
@@ -113,7 +113,7 @@ Das erste mal muss man den github.com Endpunkt bestätigen. Falls später mal ei
 
 ## Git repo hochladen
 Jetzt auf https://github.com ein neues Repository erstellen.
-Für dieses Tutorial habe ich https://github.com/adrianimboden/vier_gewinnt gewählt.
+Für dieses Tutorial wurde https://github.com/adrianimboden/vier_gewinnt gewählt.
 
 Jetzt im Projektordner von vorher:
 ```console
@@ -134,7 +134,7 @@ Jetzt ist auf https://github.com/adrianimboden/vier_gewinnt der erste Commit, we
 
 
 ## Build und tests lokal ausführen
-Damit wir lokal und auf dem Build-Server die gleiche Umgebung haben, bietet sicher hier Docker an. Aber zuerst machen wir mal von Hand, was wir nachher automatisieren wollen:
+Damit lokal und auf dem Build-Server die gleiche Umgebung eingesetzt wird, bietet sich hier Docker an. Bevor das ganze automatisiert wird, kann man es mal lokal ausführen:
 
 ```console
 $ cd /path/to/project/folder/vier-gewinnt
@@ -182,9 +182,10 @@ Ran all test suites.
 Jetzt ist im Ordner build die statische Webseite, welche wir irgendwo hochladen könnten und die Tests sind erfolgreich durchgelaufen.
 
 ## Build und tests mit Docker ausführen
-Jetzt wollen wir das ganze noch mit Docker ausführen. Docker kann man als leichtgewichtige virtuelle Maschine ansehen. Mittels eines Dockerfiles automatisieren wir den Ablauf aus dem vorherigen Schritt nun.
+Jetzt da alles funktioniert, wird das ganze mittels Docker gemacht.
+Docker kann man als leichtgewichtige virtuelle Maschine ansehen. Ein Dockerfile beinhaltet den Ablauf aus dem vorherigen Kapitel.
 
-Wir legen eine Datei mit dem Namen "Dockerfile" (keine Dateiendung) an, mit folgendem Inhalt:
+Eine Datei mit dem Namen "Dockerfile" (keine Dateiendung) anlegen. Folgender Inhalt:
 ```Dockerfile
 FROM ubuntu:focal
 
@@ -204,7 +205,7 @@ RUN npm run-script build
 RUN CI=true npm test
 ```
 
-Das Dockerfile können wir jetzt ausführen:
+Das Dockerfile kann jetzt folgendermassen ausgeführt werden:
 ```console
 $ cd /path/to/project/folder/vier-gewinnt
 $ docker build .
@@ -213,24 +214,24 @@ $ docker build .
 Das Dockerfile im Detail:
 Befehl | Beschreibung
 ------------------------------------------------- | -------------
-| `FROM ubuntu:focal`                             | Wir nehmen als Basis ein fertig installiertes Ubuntu in der Version focal |
+| `FROM ubuntu:focal`                             | Als Basis ein fertig installiertes Ubuntu in der Version focal nehmen |
 | `RUN apt-get update && apt-get install -y curl` | curl installieren (wird für die Installation von Node.js verwendet |
 | ```RUN curl -fsSL https://deb.nodesource.com/setup_14.x \| bash -```<br>`RUN apt-get install -y nodejs` | Node.js intallieren (das ist der Befehl vom Tutorial am Anfang) |
-| `WORKDIR /src` | Ab jetzt arbeiten wir im Pfad /src (ist das selbe wie `cd /src`, aber das würde im Dockerfile nur für ein einzelnes RUN gelten) |
-| `COPY package.json /src/package.json`<br>`COPY package-lock.json /src/package-lock.json` | Für das installieren der Projekt-Dependencies brauchen wir nur package.json und package-lock.json. Wir könnten auch direkt auf dem ganzen Source arbeiten, das würde dann aber bedeuten dass wir bei jeder kleinsten Code-Änderung immer wieder alle Abhängigkeiten von Null aufbauen müssten. |
-| `RUN npm install` | Damit installieren wir die Projektabhängigkeiten. Das wurde im Tutorial automatisch von `npx create-react-app` gemacht. |
-| `COPY . /src/` | Jetzt kopieren wir unseren gesamten Source in Docker hinein. |
-| `RUN npm run-script build`<br>`RUN CI=true npm test` | Und zum Schluss der eigentlich Build- und Testablauf, wie wir ihn vorher von Hand gemacht haben |
+| `WORKDIR /src` | |In den Pfad /src wechseln (ist das selbe wie `cd /src`, aber das würde im Dockerfile nur für ein einzelnes RUN gelten) |
+| `COPY package.json /src/package.json`<br>`COPY package-lock.json /src/package-lock.json` | Für das installieren der Projekt-Dependencies wird nur package.json und package-lock.json verwendet. Man könnte auch direkt auf dem ganzen Source arbeiten, das würde dann aber bedeuten dass bei jeder kleinsten Code-Änderung immer wieder alle Abhängigkeiten von Null installiert werden müssen. |
+| `RUN npm install` | Installieren der Projektabhängigkeiten. Das wurde im Tutorial automatisch von `npx create-react-app` gemacht. |
+| `COPY . /src/` | Den kompletten Source-Code in die Docker-Umgebung kopieren. |
+| `RUN npm run-script build`<br>`RUN CI=true npm test` | Der eigentliche Build- und Testablauf |
 
 ## node_modules
-Wer vorher genau hingeschaut hat, hat vielleicht bemerkt dass beim Befehl `docker build .` ca. 250MiB an Daten an den Docker daemon gesendet werden. Das ist ja viel mehr, als unser Code gross ist. Der Grund ist, dass alle Projektabhängigkeiten (der node_modules Ordner) mit hineinkopiert wird. Dieser ist aber nicht Teil des GIT Repositories und wird auf dem Buildserver auch nicht vorhanden sein.
+Wer vorher genau hingeschaut hat, hat vielleicht bemerkt dass beim Befehl `docker build .` ca. 250MiB an Daten an den Docker daemon gesendet werden. Das ist viel mehr, als der Source-Code gross ist. Der Grund ist, dass alle Projektabhängigkeiten (der node_modules Ordner) mit hineinkopiert wird. Dieser ist aber nicht Teil des GIT Repositories und wird auf dem Buildserver auch nicht vorhanden sein.
 
-Deshalb erstellen wir noch eine Datei mit dem Namen `.dockerignore` (analog zu .gigignore) mit folgendem Inhalt:
+Deshalb noch eine Datei mit dem Namen `.dockerignore` (analog zu .gitignore) erstellen. Folgender Inhalt:
 ```
 node_modules/**
 ```
 
-Der Befehl `RUN npm install` erstellt diesen Ordner dann
+Der Befehl `RUN npm install` erstellt diesen Ordner dann als Teil der Dependency-Installation.
 
 
 ## Die Änderungen auf GitHub bringen
@@ -264,7 +265,7 @@ To github.com:adrianimboden/tmp-vier-gewinnt.git
    52f4b0f..c19e869  master -> master
 ```
 
-Hier sieht man ein paar nützliche git Kommandos:
+Einige der häufigsten GIT Kommandos:
 | Befehl | Beschreibung |
 | ------ | ------------ |
 | `git status` | Anzeigen, was für Dateien wir seit letztem mal editiert/hinzugefügt/gelöscht haben |
@@ -278,9 +279,9 @@ Ein gutes Tutorial, für jene welche GIT verstehen möchten: https://www.sbf5.co
 
 
 ## GitHub Action einrichten
-GitHub Actions machen, dass wir bei jeder Änderung das Dockerfile builden können. Das ist der erste Schritt für ein sauberes CI.
+GitHub Actions erstellen, welche bei jeder Änderung das Dockerfile builden. Das ist der erste Schritt für ein sauberes CI.
 
-Wir erstellen folgende Datei und Ordnerstruktur im Repository:
+Folgende Datei und Ordnerstruktur im Repository erstellen:
 .github/workflows/ci.yaml
 
 mit folgendem Inhalt:
@@ -306,9 +307,8 @@ Diese minimale Konfiguration macht dass:
 - und bei jedem Push
 die Jobs ausgeführt werden.
 
-Der Job selber läuft auf einer Ubuntu 20.04 Maschine, welche von GitHub gestellt wird. Wenn das erstelle Repo ein Public-Repository ist, dann gibt es keine Einschränkungen bezüglich der genutzten CPU-Zeit etc.
+Der Job selber läuft auf einer Ubuntu 20.04 Maschine, welche von GitHub gestellt wird.
 
-Das ganze jetzt wieder wie gehabt auf github hochladen (`git add .`, `git commit -m"..."`, `git push`), danach können wir der Action auf github zuschauen.
-So sieht das dann aus:
-![GitHub Action](github_action.png)
+Das ganze jetzt wieder wie vorher beschrieben auf Github hochladen (`git add .`, `git commit -m"..."`, `git push`), danach kann die laufende Action auf github betrachtet werden:
+![GitHub Action in Action](github_action.png)
 Der orange Ball zeigt, dass die Action noch am laufen ist.
