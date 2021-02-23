@@ -312,3 +312,101 @@ Der Job selber läuft auf einer Ubuntu 20.04 Maschine, welche von GitHub gestell
 Das ganze jetzt wieder wie vorher beschrieben auf Github hochladen (`git add .`, `git commit -m"..."`, `git push`), danach kann die laufende Action auf github betrachtet werden:
 ![GitHub Action in Action](github_action.png)
 Der orange Ball zeigt, dass die Action noch am laufen ist.
+
+## Deployment
+Da das Projekt (bis jetzt) eine reine Frontend-Applikation ist, kann sie mittels GitHub Pages gehostet werden. Dazu braucht es ein weiteres Repository. Im Tutorial wird https://github.com/adrianimboden/vier-gewinnt-deploy dafür verwendet.
+
+Wie beim GIT Einrichten wird ein SSH-Keypair für das Hochladen des Build-Resultats auf das Deploy repository benötigt:
+```console
+$ ssh-keygen -f tmp
+... output omitted ...
+$ cat tmp.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDMfO9dLLbane/oGA+AtuEJUHBwZMtjx4tar0PvuYLCID6STh2i0NAG5vMXe0+sPUCnt7pZ00fQQ3hFnNWgDV7WBxUqowNnVaS5teDVF0j2Glp9GxSXWOE6UdVyAeMntPxgAjhC9evoEyX8Gfs3BgWapkdvG7/nI4/hglxtncEFJ54dKWyzax/ZiFFwMTha69Zi9CYcC8ANeYWmankDTPvR08rFHl2YPXe+NCERDqPKmuoBvLQxi6ct2u7me0Jw8sxu4tJzZGdS2c2IO54/P2Q9fcR+9CRbPdAotU5MyeOhM2I2MbhezquREr+uJJg8BU57HkBvNjF+Qy/cn6hTEcy8/pWrkYtoBmGcvUOTA8kKU4mZJYPNXnSh12jGaBBCBEidaLp/1Z8rgjITzkRzTlvfTr/4M8zbqS5wizjh4qAu9ilmcMDnEB0ZDCFo4yBiLZLv/AJActNrYNFvWonI3KSlems64tLZ9+ZDUPSy5OYjfWwkS9qu8ZbYc5OXDbv9700= user@computer
+$ cat tmp
+-----BEGIN OPENSSH PRIVATE KEY-----
+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
+-----END OPENSSH PRIVATE KEY-----
+```
+
+Den Public Key (tmp.pub) im Deploy-Repository unter `Settings/Deploy Keys` hinzufügen.
+Den Private Key (tmp) im Source-Repository unter `Settings/Secrets` hinzufügen (im Tutorial wird `DEPLOY_KEY` als Name verwendet)
+
+Für das Deployment golgende Datei im Repository erstellen: .github/workflows/cd.yaml
+
+mit folgendem Inhalt:
+```YAML
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: docker build -t build_tmp .
+      - run: docker create -ti --name dummy build_tmp bash
+      - run: docker cp dummy:/src/build build
+      - run: docker rm -f dummy
+        
+      - uses: peaceiris/actions-gh-pages@v3  
+        with:
+          deploy_key: ${{ secrets.DEPLOY_KEY }}
+          external_repository: adrianimboden/vier-gewinnt-deploy 
+          publish_branch: master
+          publish_dir: build/
+```
+
+Der Hauptunterschied zum normale CI Build ist, dass nach dem `docker build` Ablauf das Buildresultat aus dem Image entnommen wird.
+Nachher wird das Buildresultat mit dem Deploy-Key, welcher in Repository-Konfiguration gespeichert ist, auf das Deploy Repository hochgeladen.
+
+
+Es gibt 3 Arten, wie die GitHub Page angesehen werden kann:
+- Eine einzige GitHub Page pro User: https://username.github.io für https://github.com/username/vier-gewinnt-deploy
+- GitHub URL pro Repository: https://username.github.io/vier-gewinnt-deploy für https://github.com/username/vier-gewinnt-deploy
+- Eine separate Domain, welche von extern gestellt wird: z.B. http://vier-gewinnt.example für https://github.com/username/vier-gewinnt-deploy
+
+Bei den ersten beiden Varianten ist die aktuelle Konfiguration bereits in Ordnung, weil das React-Template darauf ausgelegt ist, dass die Applikation im Root Deployed wird.
+
+Im Beispiel dieses Tutorials wird eine URL pro Repository verwendet, das heisst das Deployment geht hierhin: https://github.com/adrianimboden/vier-gewinnt-deploy.
+Damit die Applikation dann noch funktioniert, muss in der Datei package.json der Eintrag `"homepage": "vier-gewinnt-deploy/"` hinzugefügt werden.
