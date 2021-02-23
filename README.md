@@ -61,7 +61,6 @@ Date:   Wed Feb 17 13:13:44 2021 +0000
 
 Jetzt existiert ein leeres Typescript/React.js Projekt. Der `git log` Befehl zeigt, dass unser GIT Repository einen Commit drin hat.
 
-
 ## GIT Konfigurieren
 Jetzt auf https://github.com registerieren. Üblicherweise verwendet man GIT über SSH. Für die Authentifizierung wird ein SSH-Keypair benötigt. Dieser wird wie folgt erstellt:
 ```console
@@ -132,6 +131,7 @@ Branch 'master' set up to track remote branch 'master' from 'git@github.com:adri
 
 Jetzt ist auf https://github.com/adrianimboden/vier_gewinnt der erste Commit, welcher von `npx create-react-app` erstellt wurde, zu sehen.
 
+Commit im Beispiel: https://github.com/adrianimboden/vier_gewinnt/commit/52f4b0f31d459b88186817f35dfa0940b2864e5a
 
 ## Build und tests lokal ausführen
 Damit lokal und auf dem Build-Server die gleiche Umgebung eingesetzt wird, bietet sich hier Docker an. Bevor das ganze automatisiert wird, kann man es mal lokal ausführen:
@@ -277,6 +277,7 @@ Einige der häufigsten GIT Kommandos:
 Ein gutes Tutorial, für jene welche GIT verstehen möchten: https://www.sbf5.com/~cduan/technical/git/
 
 
+Commit im Beispiel: https://github.com/adrianimboden/vier_gewinnt/commit/c19e869ecba8ef4505103841c049fc3c3d5c9a96
 
 ## GitHub Action einrichten
 GitHub Actions erstellen, welche bei jeder Änderung das Dockerfile builden. Das ist der erste Schritt für ein sauberes CI.
@@ -312,6 +313,9 @@ Der Job selber läuft auf einer Ubuntu 20.04 Maschine, welche von GitHub gestell
 Das ganze jetzt wieder wie vorher beschrieben auf Github hochladen (`git add .`, `git commit -m"..."`, `git push`), danach kann die laufende Action auf github betrachtet werden:
 ![GitHub Action in Action](github_action.png)
 Der orange Ball zeigt, dass die Action noch am laufen ist.
+
+
+Commit im Beispiel: https://github.com/adrianimboden/vier_gewinnt/commit/820be9657ee833b2dbe6825cb04b557d5a9f2e18
 
 ## Deployment
 Da das Projekt (bis jetzt) eine reine Frontend-Applikation ist, kann sie mittels GitHub Pages gehostet werden. Dazu braucht es ein weiteres Repository. Im Tutorial wird https://github.com/adrianimboden/vier-gewinnt-deploy dafür verwendet.
@@ -410,3 +414,6 @@ Bei den ersten beiden Varianten ist die aktuelle Konfiguration bereits in Ordnun
 
 Im Beispiel dieses Tutorials wird eine URL pro Repository verwendet, das heisst das Deployment geht hierhin: https://github.com/adrianimboden/vier-gewinnt-deploy.
 Damit die Applikation dann noch funktioniert, muss in der Datei package.json der Eintrag `"homepage": "vier-gewinnt-deploy/"` hinzugefügt werden.
+
+
+Commit im Beispiel: https://github.com/adrianimboden/vier_gewinnt/commit/8e97484e03a567447205fe790d32e466d70533f1
