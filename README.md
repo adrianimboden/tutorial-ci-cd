@@ -367,7 +367,7 @@ JLQFyWs01sTtBRAAAADWFkcmlhbkBhZGlkZXYBAgMEBQ==
 -----END OPENSSH PRIVATE KEY-----
 ```
 
-Den Public Key (tmp.pub) im Deploy-Repository unter `Settings/Deploy Keys` hinzufügen.
+Den Public Key (tmp.pub) im Deploy-Repository unter `Settings/Deploy Keys` hinzufügen (mit Write-Access).
 Den Private Key (tmp) im Source-Repository unter `Settings/Secrets` hinzufügen (im Tutorial wird `DEPLOY_KEY` als Name verwendet)
 
 Für das Deployment golgende Datei im Repository erstellen: .github/workflows/cd.yaml
