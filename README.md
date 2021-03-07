@@ -275,7 +275,7 @@ Befehl | Beschreibung
 | `RUN apt-get update && apt-get install -y curl` | curl installieren (wird für die Installation von _Node.js_ verwendet |
 | ```RUN curl -fsSL https://deb.nodesource.com/setup_14.x \| bash -```<br>`RUN apt-get install -y nodejs` | _Node.js_ intallieren (das ist der Befehl vom Tutorial am Anfang) |
 | `WORKDIR /src` | In den Pfad /src wechseln (ist das selbe wie `cd /src`, aber das würde im Dockerfile nur für ein einzelnes RUN gelten) |
-| `COPY package.json /src/package.json`<br>`COPY package-lock.json /src/package-lock.json` | Für das installieren der Projekt-Dependencies wird nur package.json und package-lock.json verwendet. Man könnte auch direkt auf dem ganzen Source arbeiten, das würde dann aber bedeuten dass bei jeder kleinsten Code-Änderung immer wieder alle Abhängigkeiten von Null installiert werden müssen. |
+| `COPY package.json /src/package.json`<br>`COPY package-lock.json /src/package-lock.json` | Für das Installieren der Projekt-Dependencies wird nur `package.json` und `package-lock.json` verwendet. Man könnte auch direkt den kompletten Source-Code kopieren, das würde dann aber bedeuten dass bei jeder kleinsten Code-Änderung immer wieder alle Abhängigkeiten von Null installiert werden müssen. |
 | `RUN npm install` | Installieren der Projektabhängigkeiten. Das wurde im Tutorial automatisch von `npx create-react-app` gemacht. |
 | `COPY . /src/` | Den kompletten Source-Code in die Docker-Umgebung kopieren. |
 | `RUN npm run-script build`<br>`RUN CI=true npm test` | Der eigentliche Build- und Testablauf |
