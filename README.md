@@ -13,6 +13,9 @@ Dieses Tutorial zeigt, wie man ein einfaches Projekt inklusive CI/CD in GitHub a
 * [Git Repository hochladen](#git-repository-hochladen)
 * [Build und Tests lokal ausführen](#build-und-tests-lokal-ausführen)
 * [Build und Tests mit Docker ausführen](#build-und-tests-mit-docker-ausführen)
+* [Änderungen auf GitHub pushen](#änderungen-auf-github-pushen)
+* [GitHub Action einrichten](#github-action-einrichten)
+* [Deployment](#deployment)
 
 ## Technologien
 
