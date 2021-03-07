@@ -2,23 +2,23 @@
 
 Dieses Tutorial zeigt, wie man ein einfaches Projekt inklusive CI/CD in GitHub aufsetzen kann.
 
-## Technologien
+## Technologien
 
-* Git\
+* **Git**\
   _ein open sorce Versionskontrollsystem_
-* GitHub\
+* **GitHub**\
   _Git online Plattform_
-* GitHub Actions\
+  * **GitHub Actions**\
   _Automatisierungen in GitHub_
-* GitHub Pages\
+  * **GitHub Pages**\
   _gratis Hosting für statische Webseiten_
-* Node.js\
+* **Node.js**\
   _JavaScript Runtime, um JavaScript auch ausserhalb des Browsers einsetzen zu können_
-* React\
+* **React**\
   _JavaScript Bibliothek für Benutzerschnittstellen_
-* Typescript\
+* **Typescript**\
   _JavaScript + statische Typisierung für sicheren Code_
-* Docker\
+* **Docker**\
   _Virtualisierung_
 
 ## Voraussetzungen
