@@ -2,6 +2,10 @@
 
 Dieses Tutorial zeigt, wie man ein einfaches Projekt inklusive CI/CD in GitHub aufsetzen kann.
 
+## Inhaltsverzeichnis
+
+* [Technologien](#Technologien)
+
 ## Technologien
 
 * **Git**\
@@ -25,11 +29,13 @@ Dieses Tutorial zeigt, wie man ein einfaches Projekt inklusive CI/CD in GitHub a
 
 Die diversen Softwarepakete welche eingesetzt werden, werden im Verlauf des Tutorials installiert. Wer das im voraus machen möchte, folgende Software wird eingesetzt:
 
-* GIT (https://git-scm.com/downloads)
+* Git (https://git-scm.com/downloads)
 * Node.js (https://nodejs.org)
 * Docker (https://www.docker.com/get-started)
 
-Alle eingesetzte Software sind plattformunabhängig und funktioniert auf Windows/Linux/macOS. Ich persönlich empfehle, Linux zu verwenden. Insbesondere Docker läuft unter Linux wesentlich besser als auf Windows oder macOS.
+Alle eingesetzte Software sind plattformunabhängig und funktionieren unter Windows, Linux und macOS. 
+
+**Ich persönlich empfehle, Linux zu verwenden. Insbesondere Docker läuft unter Linux wesentlich besser als unter Windows oder macOS.**
 
 ## Git installieren
 
