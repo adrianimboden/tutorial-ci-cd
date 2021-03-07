@@ -282,7 +282,7 @@ Befehl | Beschreibung
 
 ### node_modules
 
-Wer vorher genau hingeschaut hat, hat vielleicht bemerkt dass beim Befehl `docker build .` ca. 250MiB an Daten an den _Docker_ Daemon gesendet werden. Das ist viel mehr, als der Source-Code gross ist. Der Grund ist, dass alle Projektabhängigkeiten (der `node_modules`-Ordner) mit hineinkopiert wird. Dieser ist aber nicht Teil des Git Repositories und wird auf dem Buildserver auch nicht vorhanden sein.
+Wer vorher genau hingeschaut hat, hat vielleicht bemerkt dass beim Befehl `docker build .` ca. 250MiB an Daten an den _Docker_ Daemon gesendet werden. Das ist viel mehr, als der Source-Code gross ist. Der Grund ist, dass alle Projektabhängigkeiten (der `node_modules`-Ordner) mit hineinkopiert wird. Dieser ist aber nicht Teil des _Git_-Repositories und wird auf dem Buildserver auch nicht vorhanden sein.
 
 Deshalb noch eine Datei mit dem Namen `.dockerignore` (analog zu `.gitignore`) erstellen. Folgender Inhalt:
 
@@ -293,7 +293,7 @@ node_modules/**
 Der Befehl `RUN npm install` erstellt diesen Ordner dann als Teil der Dependency-Installation.
 
 
-## Die Änderungen auf GitHub pushen
+## Änderungen auf GitHub pushen
 
 ```console
 $ git status
@@ -324,7 +324,7 @@ To github.com:adrianimboden/tmp-vier-gewinnt.git
    52f4b0f..c19e869  master -> master
 ```
 
-Einige der häufigsten _Git_-Kommandos:
+### Häufige _Git_-Kommandos:
 
 | Befehl | Beschreibung |
 | ------ | ------------ |
@@ -376,8 +376,8 @@ Das ganze erneut wie vorher beschrieben auf Github hochladen (`git add .`, `git 
 
 ![GitHub Action in Action](github_action.png)
 
-* Der orange Kreis zeigt, dass die _Action_ noch am laufen ist.
-* Ein grüner Haken bedeutet eine erfolgreich abgeschlossene _Action_.
+* Der orange Kreis (🟠) zeigt, dass die _Action_ noch am laufen ist.
+* Ein grüner Haken (✔️) bedeutet eine erfolgreich abgeschlossene _Action_.
 
 Commit im Beispiel: https://github.com/adrianimboden/vier_gewinnt/commit/820be9657ee833b2dbe6825cb04b557d5a9f2e18
 
@@ -467,11 +467,9 @@ jobs:
           publish_dir: build/
 ```
 
-Der Hauptunterschied zum normale CI Build ist, dass nach dem `docker build` Ablauf das Buildresultat aus dem Image entnommen wird.
+Der Hauptunterschied zum `ci.yaml` ist, dass nach dem `docker build` Ablauf das Buildresultat aus dem Image entnommen wird und nachher dank dem Deploy-Key, welcher in der Repository-Konfiguration gespeichert ist, auf das Deploy-Repository hochgeladen.
 
-Nachher wird das Buildresultat mit dem Deploy-Key, welcher in Repository-Konfiguration gespeichert ist, auf das Deploy Repository hochgeladen.
-
-Es gibt 3 Arten, wie die GitHub Page angesehen werden kann:
+Es gibt drei Möglichkeiten, wie die _GitHub Page_ betrachtet werden kann:
 - Eine einzige GitHub Page pro User: https://username.github.io für https://github.com/username/vier-gewinnt-deploy
 - GitHub URL pro Repository: https://username.github.io/vier-gewinnt-deploy für https://github.com/username/vier-gewinnt-deploy
 - Eine separate Domain, welche von extern gestellt wird: z.B. http://vier-gewinnt.example für https://github.com/username/vier-gewinnt-deploy
@@ -479,6 +477,9 @@ Es gibt 3 Arten, wie die GitHub Page angesehen werden kann:
 Bei den ersten beiden Varianten ist die aktuelle Konfiguration bereits in Ordnung, weil das React-Template darauf ausgelegt ist, dass die Applikation im Root Deployed wird.
 
 Im Beispiel dieses Tutorials wird eine URL pro Repository verwendet, das heisst das Deployment geht hierhin: https://github.com/adrianimboden/vier-gewinnt-deploy.
+
 Damit die Applikation dann noch funktioniert, muss in der Datei package.json der Eintrag `"homepage": "vier-gewinnt-deploy/"` hinzugefügt werden.
+
+Das Beispiel-Repository ist nun unter https://adrianimboden.github.io/vier-gewinnt-deploy/ erreichbar.
 
 Commit im Beispiel: https://github.com/adrianimboden/vier_gewinnt/commit/8e97484e03a567447205fe790d32e466d70533f1
