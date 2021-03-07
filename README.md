@@ -4,7 +4,15 @@ Dieses Tutorial zeigt, wie man ein einfaches Projekt inklusive CI/CD in GitHub a
 
 ## Inhaltsverzeichnis
 
-* [Technologien](#Technologien)
+* [Technologien](#technologien)
+* [Voraussetzungen](#voraussetzungen)
+* [Git installieren](#git-installieren)
+* [Node.js installieren](#nodejs-installieren)
+* [React/Typescript Projekt initialisieren](#reacttypescript-projekt-initialisieren)
+* [Git konfigurieren](#git-konfigurieren)
+* [Git Repository hochladen](#git-repository-hochladen)
+* [Build und Tests lokal ausführen](#build-und-tests-lokal-ausführen)
+* [Build und Tests mit Docker ausführen](#build-und-tests-mit-docker-ausführen)
 
 ## Technologien
 
