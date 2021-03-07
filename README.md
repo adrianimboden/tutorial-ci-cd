@@ -470,11 +470,11 @@ jobs:
 Der Hauptunterschied zum `ci.yaml` ist, dass nach dem `docker build` Ablauf das Buildresultat aus dem Image entnommen wird und nachher dank dem Deploy-Key, welcher in der Repository-Konfiguration gespeichert ist, auf das Deploy-Repository hochgeladen.
 
 Es gibt drei Möglichkeiten, wie die _GitHub Page_ betrachtet werden kann:
-- Eine einzige GitHub Page pro User: https://username.github.io für https://github.com/username/vier-gewinnt-deploy
+- Eine einzige _GitHub Page_ pro User: https://username.github.io für https://github.com/username/vier-gewinnt-deploy
 - GitHub URL pro Repository: https://username.github.io/vier-gewinnt-deploy für https://github.com/username/vier-gewinnt-deploy
 - Eine separate Domain, welche von extern gestellt wird: z.B. http://vier-gewinnt.example für https://github.com/username/vier-gewinnt-deploy
 
-Bei den ersten beiden Varianten ist die aktuelle Konfiguration bereits in Ordnung, weil das React-Template darauf ausgelegt ist, dass die Applikation im Root Deployed wird.
+Bei den ersten beiden Varianten ist die aktuelle Konfiguration bereits in Ordnung, weil das _React_-Template darauf ausgelegt ist, dass die Applikation im Root-Verzeichnis Deployed wird.
 
 Im Beispiel dieses Tutorials wird eine URL pro Repository verwendet, das heisst das Deployment geht hierhin: https://github.com/adrianimboden/vier-gewinnt-deploy.
 
