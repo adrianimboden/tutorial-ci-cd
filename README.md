@@ -4,12 +4,22 @@ Dieses Tutorial zeigt, wie man ein einfaches Projekt inklusive CI/CD in GitHub a
 
 ## Technologien
 
-* Git
-* Node.js
-* React mit Typescript
-* GitHub Actions
-* Docker
-* GitHub Pages
+* Git\
+  _ein open sorce Versionskontrollsystem_
+* GitHub\
+  _Git online Plattform_
+* GitHub Actions\
+  _Automatisierungen in GitHub_
+* GitHub Pages\
+  _gratis Hosting für statische Webseiten_
+* Node.js\
+  _JavaScript Runtime, um JavaScript auch ausserhalb des Browsers einsetzen zu können_
+* React\
+  _JavaScript Bibliothek für Benutzerschnittstellen_
+* Typescript\
+  _JavaScript + statische Typisierung für sicheren Code_
+* Docker\
+  _Virtualisierung_
 
 ## Voraussetzungen
 
