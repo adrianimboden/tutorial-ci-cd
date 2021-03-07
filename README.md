@@ -35,7 +35,7 @@ Dieses Tutorial zeigt, wie man ein einfaches Projekt inklusive CI/CD in GitHub a
 
 ## Voraussetzungen
 
-Die diversen Softwarepakete welche eingesetzt werden, werden im Verlauf des Tutorials installiert. Wer das im voraus machen möchte, folgende Software wird eingesetzt:
+Die diversen Softwarepakete welche eingesetzt werden, werden im Verlauf des Tutorials installiert. Wer das im voraus machen möchte, findet hier eine Liste mit Links zu den Downloads:
 
 * Git (https://git-scm.com/downloads)
 * Node.js (https://nodejs.org)
@@ -51,9 +51,9 @@ Alle eingesetzte Software sind plattformunabhängig und funktionieren unter Wind
 
 Auf https://git-scm.com/downloads den Installer herunterladen und alles installieren (die Default Einstellungen sind in Ordnung).
 
-Nebst Git wird auch die **Git Bash** installiert und ich empfehle diese Konsole für die weiteren Schritte zu verwenden. Die Git Bash ist Linux-Kompatibel. Mir sind Befehle in Zusammenhang mit Node.js bekannt, welche in der Vergangenheit Probleme gemacht wenn die PowerShell oder CMD verwendet wird.
+**Nebst Git wird auch die _Git Bash_ installiert und ich empfehle diese Konsole für die weiteren Schritte zu verwenden. Die _Git Bash_ ist Linux-Kompatibel. Mir sind Befehle in Zusammenhang mit _Node.js_ bekannt, welche in der Vergangenheit Probleme gemacht wenn die _PowerShell_ oder _CMD_ verwendet wird.**
 
-Ausserdem sind die Befehle, welche später im Zusammenhang mit Docker verwendet werden ebenfalls Bash-Shell kompatibel. Von daher macht es sowieso Sinn, sich damit vertraut zu machen.
+**Ausserdem sind die Befehle, welche später im Zusammenhang mit _Docker_ verwendet werden ebenfalls _Bash_ kompatibel. Von daher macht es sowieso Sinn, sich damit vertraut zu machen.**
 
 ### Linux (Debian/Ubuntu)
 
@@ -67,7 +67,7 @@ $ sudo apt install git
 
 Auf https://nodejs.org den Installer herunterladen und alles installieren (die Default Einstellungen sind in Ordnung).
 
-Nachher ausloggen oder den Computer neustarten. Erst nachher wird die Umgebungsvariable `PATH` neu geladen, welche im Installationsvorgang (bei Git und Node.js) angepasst wird.
+Nachher ausloggen oder den Computer neustarten. Erst nachher wird die Umgebungsvariable `PATH` neu geladen, welche im Installationsvorgang (bei _Git_ und _Node.js_) angepasst wird.
 
 ### Linux (Debian/Ubuntu)
 
@@ -96,13 +96,13 @@ Date:   Wed Feb 17 13:13:44 2021 +0000
     Initialize project using Create React App
 ```
 
-Jetzt existiert ein leeres Typescript/React.js Projekt. Der `git log` Befehl zeigt, dass unser Git Repository einen Commit drin hat.
+Jetzt existiert ein leeres Typescript/React.js-Projekt. Der `git log` Befehl zeigt, dass unser _Git_-Repository (kurz: Repo) einen Commit drin hat.
 
 ## Git Konfigurieren
 
-Jetzt auf https://github.com registrieren. 
+Einen Benutzer unter https://github.com registrieren.
 
-Üblicherweise verwendet man Git über SSH. Für die Authentifizierung wird ein SSH-Schlüsselpaar benötigt. Dieses wird wie folgt erstellt:
+Üblicherweise verwendet man _Git_ über SSH. Für die Authentifizierung wird ein SSH-Schlüsselpaar benötigt. Dieses wird wie folgt erstellt:
 
 ```console
 $ ssh-keygen
@@ -131,9 +131,9 @@ $ cat ~/.ssh/id_rsa.pub
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDYzuwNL6MEp3UQzg9XtuZQsdtfG2mHCnstOFMQmdzAicKu03QhDWak5cyq/2UZxCgLYpERto60GvaQQeOOjv0cvlOGksvA/4wVpxH9yaHxZv+o5+XCCP/dt2zZ5vMxDjGwQFJy9NvQm7tGW7B6PPl38fmNH006nGpJNpXdkMs4Zuc9HuursHPIotoLolXTlgTB8W0RAm2Jr4uyuTJ6GJo6e2gWLBn4HMX9Kg0zQFL4LshUnjb5nCRUCu6M9Z5wvAniumSLnDtIp3pUm8gO8O/MbDUQKHwOsBumII8LgHyh60E9NnEibv2pVAV5APactzVbSnAMQIb1RiMcjV4YaLUKjhAz1djOYrj7QgLIxqeZAukABMP7b2iJQu8glVBMQQ3XvQK9EkQmY4wQqRFJcR5hZj/HzXPqZmsbaikmEZP/4vp2mwxkJgZ3rgiS/mva3kINg39L8z2J5FfCDSsk7CieVjiMD+lG2ceWvMRCydL24XsMkefHsHaO9mPjo5BTlgs= user@computer
 ```
 
-Den mit `cat ~/.ssh/id_rsa.pub` ausgegebenen Key kann man jetzt auf GitHub (https://github.com/settings/keys) registrieren.
+Den mit `cat ~/.ssh/id_rsa.pub` ausgegebenen Schlüssel kann man jetzt auf _GitHub_ (https://github.com/settings/keys) registrieren.
 
-Zum Ausprobieren ob alles funktioniert hat, kann man dieses Respository klonen:
+Zum Ausprobieren ob alles funktioniert hat, kann man ein bestehendes Respository klonen, zum Beispiel:
 
 ```console
 $ cd /tmp
@@ -141,6 +141,12 @@ $ git clone git@github.com:adrianimboden/tutorial-ci-cd.git
 Cloning into 'tutorial-ci-cd'...
 The authenticity of host 'github.com (140.82.121.3)' can't be established.
 RSA key fingerprint is SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? 
+```
+
+-> `yes`
+
+```console
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
 Warning: Permanently added 'github.com,140.82.121.3' (RSA) to the list of known hosts.
 git@github.com: Permission denied (publickey).
@@ -150,11 +156,11 @@ Please make sure you have the correct access rights
 and the repository exists.
 ```
 
-Das erste mal muss man den github.com Endpunkt bestätigen. Falls später mal eine Man-in-the-middle stattfinden würde, dann würde Git/SSH das bemerken.
+Das erste mal muss man den `github.com`-Endpunkt bestätigen. Falls später mal eine Man-in-the-middle-Attacke stattfinden würde, dann würde _Git_/SSH das bemerken.
 
 ## Git Repository hochladen
 
-Jetzt auf https://github.com ein neues Repository (kurz: Repo) erstellen.
+Jetzt auf https://github.com ein neues Repository erstellen.
 
 Für dieses Tutorial wurde https://github.com/adrianimboden/vier_gewinnt gewählt.
 
@@ -174,13 +180,13 @@ To github.com:adrianimboden/vier-gewinnt.git
 Branch 'master' set up to track remote branch 'master' from 'git@github.com:adrianimboden/vier-gewinnt.git'.
 ```
 
-Jetzt ist auf https://github.com/adrianimboden/vier_gewinnt der erste Commit, welcher von `npx create-react-app` erstellt wurde, zu sehen.
+Nun ist auf https://github.com/adrianimboden/vier_gewinnt der erste Commit, welcher von `npx create-react-app` erstellt wurde, zu sehen.
 
 Commit im Beispiel: https://github.com/adrianimboden/vier_gewinnt/commit/52f4b0f31d459b88186817f35dfa0940b2864e5a
 
 ## Build und Tests lokal ausführen
 
-Damit lokal und auf dem Build-Server die gleiche Umgebung eingesetzt wird, bietet sich hier Docker an. Bevor das ganze automatisiert wird, kann man es mal lokal ausführen:
+Damit lokal und auf dem Build-Server die gleiche Umgebung eingesetzt wird, bietet sich hier _Docker_ an. Bevor das ganze automatisiert wird, kann man es vorerst lokal ausführen:
 
 ```console
 $ cd /path/to/project/folder/vier-gewinnt
@@ -229,9 +235,9 @@ Jetzt ist im Ordner `build` die statische Webseite, welche wir auf einen beliebi
 
 ## Build und Tests mit Docker ausführen
 
-Jetzt da alles funktioniert, werden wir das ganze mittels Docker durchführen.
+Jetzt da alles funktioniert, werden wir das ganze mittels _Docker_ durchführen.
 
-Docker kann man als leichtgewichtige virtuelle Maschine ansehen. Ein Dockerfile beinhaltet den Ablauf aus dem vorherigen Kapitel.
+_Docker_ kann man als leichtgewichtige virtuelle Maschine ansehen. Ein Dockerfile beinhaltet den Ablauf aus dem vorherigen Kapitel.
 
 Eine Datei mit dem Namen "Dockerfile" (keine Dateiendung) anlegen. Folgender Inhalt:
 
@@ -261,24 +267,24 @@ $ cd /path/to/project/folder/vier-gewinnt
 $ docker build .
 ```
 
-Das Dockerfile im Detail:
+### Das Dockerfile im Detail
 
 Befehl | Beschreibung
 ------------------------------------------------- | -------------
 | `FROM ubuntu:focal`                             | Als Basis ein fertig installiertes Ubuntu in der Version focal nehmen |
-| `RUN apt-get update && apt-get install -y curl` | curl installieren (wird für die Installation von Node.js verwendet |
-| ```RUN curl -fsSL https://deb.nodesource.com/setup_14.x \| bash -```<br>`RUN apt-get install -y nodejs` | Node.js intallieren (das ist der Befehl vom Tutorial am Anfang) |
-| `WORKDIR /src` | |In den Pfad /src wechseln (ist das selbe wie `cd /src`, aber das würde im Dockerfile nur für ein einzelnes RUN gelten) |
+| `RUN apt-get update && apt-get install -y curl` | curl installieren (wird für die Installation von _Node.js_ verwendet |
+| ```RUN curl -fsSL https://deb.nodesource.com/setup_14.x \| bash -```<br>`RUN apt-get install -y nodejs` | _Node.js_ intallieren (das ist der Befehl vom Tutorial am Anfang) |
+| `WORKDIR /src` | In den Pfad /src wechseln (ist das selbe wie `cd /src`, aber das würde im Dockerfile nur für ein einzelnes RUN gelten) |
 | `COPY package.json /src/package.json`<br>`COPY package-lock.json /src/package-lock.json` | Für das installieren der Projekt-Dependencies wird nur package.json und package-lock.json verwendet. Man könnte auch direkt auf dem ganzen Source arbeiten, das würde dann aber bedeuten dass bei jeder kleinsten Code-Änderung immer wieder alle Abhängigkeiten von Null installiert werden müssen. |
 | `RUN npm install` | Installieren der Projektabhängigkeiten. Das wurde im Tutorial automatisch von `npx create-react-app` gemacht. |
 | `COPY . /src/` | Den kompletten Source-Code in die Docker-Umgebung kopieren. |
 | `RUN npm run-script build`<br>`RUN CI=true npm test` | Der eigentliche Build- und Testablauf |
 
-## node_modules
+### node_modules
 
-Wer vorher genau hingeschaut hat, hat vielleicht bemerkt dass beim Befehl `docker build .` ca. 250MiB an Daten an den Docker Daemon gesendet werden. Das ist viel mehr, als der Source-Code gross ist. Der Grund ist, dass alle Projektabhängigkeiten (der `node_modules`-Ordner) mit hineinkopiert wird. Dieser ist aber nicht Teil des Git Repositories und wird auf dem Buildserver auch nicht vorhanden sein.
+Wer vorher genau hingeschaut hat, hat vielleicht bemerkt dass beim Befehl `docker build .` ca. 250MiB an Daten an den _Docker_ Daemon gesendet werden. Das ist viel mehr, als der Source-Code gross ist. Der Grund ist, dass alle Projektabhängigkeiten (der `node_modules`-Ordner) mit hineinkopiert wird. Dieser ist aber nicht Teil des Git Repositories und wird auf dem Buildserver auch nicht vorhanden sein.
 
-Deshalb noch eine Datei mit dem Namen `.dockerignore` (analog zu .gitignore) erstellen. Folgender Inhalt:
+Deshalb noch eine Datei mit dem Namen `.dockerignore` (analog zu `.gitignore`) erstellen. Folgender Inhalt:
 
 ```
 node_modules/**
@@ -287,7 +293,7 @@ node_modules/**
 Der Befehl `RUN npm install` erstellt diesen Ordner dann als Teil der Dependency-Installation.
 
 
-## Die Änderungen auf GitHub bringen
+## Die Änderungen auf GitHub pushen
 
 ```console
 $ git status
@@ -318,7 +324,7 @@ To github.com:adrianimboden/tmp-vier-gewinnt.git
    52f4b0f..c19e869  master -> master
 ```
 
-Einige der häufigsten Git Kommandos:
+Einige der häufigsten _Git_-Kommandos:
 
 | Befehl | Beschreibung |
 | ------ | ------------ |
@@ -328,19 +334,20 @@ Einige der häufigsten Git Kommandos:
 | `git commit -m"Beschreibung"` | Den "stage"-Bereich mit einer Beschreibung abspeichern |
 | `git push` | Die lokalen Commits welche noch nicht auf dem Server sind hochladen |
 
-Ein gutes Tutorial, für jene welche GIT verstehen möchten: https://www.sbf5.com/~cduan/technical/git/
+Ein gutes Tutorial, für jene welche Git verstehen möchten: https://www.sbf5.com/~cduan/technical/git/
 
 Commit im Beispiel: https://github.com/adrianimboden/vier_gewinnt/commit/c19e869ecba8ef4505103841c049fc3c3d5c9a96
 
 ## GitHub Action einrichten
 
-GitHub Actions erstellen, welche bei jeder Änderung das Dockerfile builden. Das ist der erste Schritt für ein sauberes CI.
+_GitHub Actions_ erstellen, welche bei jeder Änderung das Dockerfile builden. Das ist der erste Schritt für ein sauberes CI.
 
-Folgende Datei und Ordnerstruktur im Repository erstellen:
+Folgende Yaml-Datei und Ordnerstruktur im Repository erstellen:
 
 `.github/workflows/ci.yaml`
 
 mit folgendem Inhalt:
+
 ```YAML
 name: CI only
 
@@ -358,26 +365,27 @@ jobs:
       - run: docker build .
 ```
 
-Diese minimale Konfiguration macht dass:
-- Bei jedem Pull-Request (dazu später mehr)
-- und bei jedem Push
-die Jobs ausgeführt werden.
+Diese minimale Konfiguration macht, dass
+- bei jedem Pull-Request (dazu später mehr) und
+- bei jedem Push
+der Job ausgeführt wird.
 
-Der Job selber läuft auf einer Ubuntu 20.04 Maschine, welche von GitHub gestellt wird.
+Der Job "build" selber läuft auf einer Ubuntu 20.04 Maschine, welche von _GitHub_ gestellt wird.
 
-Das ganze jetzt wieder wie vorher beschrieben auf Github hochladen (`git add .`, `git commit -m"..."`, `git push`), danach kann die laufende Action auf GitHub betrachtet werden:
+Das ganze erneut wie vorher beschrieben auf Github hochladen (`git add .`, `git commit -m"..."`, `git push`), danach kann die laufende _Action_ auf _GitHub_ betrachtet werden:
 
 ![GitHub Action in Action](github_action.png)
 
-Der orange Kreis zeigt, dass die Action noch am laufen ist.
+* Der orange Kreis zeigt, dass die _Action_ noch am laufen ist.
+* Ein grüner Haken bedeutet eine erfolgreich abgeschlossene _Action_.
 
 Commit im Beispiel: https://github.com/adrianimboden/vier_gewinnt/commit/820be9657ee833b2dbe6825cb04b557d5a9f2e18
 
 ## Deployment
 
-Da das Projekt (bis jetzt) eine reine Frontend-Applikation ist, kann sie mittels GitHub Pages gehostet werden. Dazu braucht es ein weiteres Repository. Im Tutorial wird https://github.com/adrianimboden/vier-gewinnt-deploy dafür verwendet.
+Da das Projekt (bis jetzt) eine reine Frontend-Applikation ist, kann sie mittels _GitHub Pages_ gehostet werden. Dazu braucht es ein weiteres Repository. Im Tutorial wird https://github.com/adrianimboden/vier-gewinnt-deploy dafür verwendet.
 
-Wie beim Git Einrichten wird ein SSH-Keypair für das Hochladen des Build-Resultats auf das Deploy repository benötigt:
+Wie beim Einrichten von _Git_ wird ein SSH-Schlüsselpaar für das Hochladen des Build-Resultats auf das Deploy Repository benötigt:
 
 ```console
 $ ssh-keygen -f tmp
@@ -425,13 +433,12 @@ JLQFyWs01sTtBRAAAADWFkcmlhbkBhZGlkZXYBAgMEBQ==
 -----END OPENSSH PRIVATE KEY-----
 ```
 
-Den Public Key (tmp.pub) im Deploy-Repository unter `Settings/Deploy Keys` hinzufügen (mit Write-Access).
+Den Public Key (`tmp.pub`) im Deploy-Repository unter `Settings/Deploy Keys` hinzufügen (mit Write-Access).
 
-Den Private Key (tmp) im Source-Repository unter `Settings/Secrets` hinzufügen (im Tutorial wird `DEPLOY_KEY` als Name verwendet)
+Den Private Key (`tmp`) im Source-Repository unter `Settings/Secrets` hinzufügen (im Tutorial wird `DEPLOY_KEY` als Name verwendet)
 
-Für das Deployment golgende Datei im Repository erstellen: `.github/workflows/cd.yaml`
+Für das Deployment folgende Yaml-Datei im Repository erstellen: `.github/workflows/cd.yaml`
 
-mit folgendem Inhalt:
 ```YAML
 name: Deploy
 
